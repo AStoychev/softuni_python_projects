@@ -1,0 +1,77 @@
+def position(rows, cols, current_size):
+    if rows < 0:
+        rows = current_size - 1
+    if rows >= current_size:
+        rows = 0
+    if cols < 0:
+        cols = current_size - 1
+    if cols >= current_size:
+        cols = 0
+
+    return rows, cols
+
+
+size = 6
+matrix = []
+
+for _ in range(size):
+    matrix.append(input().split())
+
+gifts = {
+    "Water": 0,
+    "Metal": 0,
+    "Concrete": 0
+}
+
+row = 0
+col = 0
+is_win = True
+
+for current_row in range(size):
+    for current_col in range(size):
+        if matrix[current_row][current_col] == "E":
+            row = current_row
+            col = current_col
+
+
+command = input().split(", ")
+
+count = 0
+for i in range(len(command)):
+    count += 1
+    if count > len(command):
+        break
+
+    if command[i] == "up":
+        row, col = position(row - 1, col, size)
+    elif command[i] == "down":
+        row, col = position(row + 1, col, size)
+    elif command[i] == "left":
+        row, col = position(row, col - 1, size)
+    elif command[i] == "right":
+        row, col = position(row, col + 1, size)
+
+    if matrix[row][col] == "W":
+        gifts["Water"] += 1
+        print(f"Water deposit found at ({row}, {col})")
+    elif matrix[row][col] == "M":
+        gifts["Metal"] += 1
+        print(f"Metal deposit found at ({row}, {col})")
+    elif matrix[row][col] == "C":
+        gifts["Concrete"] += 1
+        print(f"Concrete deposit found at ({row}, {col})")
+    elif matrix[row][col] == "R":
+        print(f"Rover got broken at ({row}, {col})")
+        is_win = False
+        break
+
+
+if gifts["Water"] >= 1 and gifts["Metal"] >= 1 and gifts["Concrete"] >= 1:
+    is_win = True
+else:
+    is_win = False
+
+if is_win:
+    print("Area suitable to start the colony.")
+else:
+    print("Area not suitable to start the colony.")
