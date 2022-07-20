@@ -1,0 +1,21 @@
+def words_sorting(*args):
+    words = {}
+    current_sum = 0
+    result = ""
+    while args:
+        for word in args:
+            coins = 0
+            for letters in word:
+                coins += ord(letters)
+                current_sum += ord(letters)
+                words[word] = coins
+
+        if current_sum % 2 == 0:
+            for key, value in sorted(words.items(), key=lambda kvp: (kvp[0])):
+                result += f"{key} - {value}\n"
+
+        elif current_sum % 2 == 1:
+            for key, value in sorted(words.items(), key=lambda kvp: kvp[1], reverse=True):
+                result += f"{key} - {value}\n"
+
+        return result
