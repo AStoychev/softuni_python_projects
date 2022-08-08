@@ -1,0 +1,70 @@
+def position(rows, cols, current_command):
+    if current_command == "up":
+        return rows - 1, cols
+    if current_command == "down":
+        return rows + 1, cols
+    if current_command == "left":
+        return rows, cols - 1
+    if current_command == "right":
+        return rows, cols + 1
+
+
+size = int(input())
+matrix = []
+row = 0
+col = 0
+burrow_row = 0
+burrow_col = 0
+is_win = False
+
+for _ in range(size):
+    matrix.append([x for x in input()])
+
+count = 0
+
+for current_row in range(size):
+    for current_col in range(size):
+        if matrix[current_row][current_col] == "S":
+            row = current_row
+            col = current_col
+
+while True:
+    if count == 10:
+        is_win = True
+        break
+
+    command = input()
+
+    player_row, player_col = position(row, col, command)
+    if 0 > player_row or player_row >= size or 0 > player_col or player_col >= size:
+        break
+
+    matrix[row][col] = "."
+    row, col = player_row, player_col
+
+    for i in range(size):
+        for j in range(size):
+            if matrix[i][j] == "B":
+                burrow_row = i
+                burrow_col = j
+
+    if matrix[row][col] == "*":
+        count += 1
+        matrix[row][col] = "."
+
+    elif matrix[row][col] == "B":
+        matrix[row][col] = "."
+        row, col = burrow_row, burrow_col
+
+    matrix[row][col] = "S"
+
+if is_win:
+    print("You won! You fed the snake.")
+else:
+    matrix[row][col] = "."
+    print("Game over!")
+
+print(f"Food eaten: {count}")
+
+for i in matrix:
+    print(*i, sep="")
