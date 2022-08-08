@@ -1,0 +1,19 @@
+from collections import deque
+
+
+def best_list_pureness(numbers, k):
+    current_list = deque(numbers)
+    max_number = 0
+    count = 0
+
+    for i in range(k + 1):
+        current_sum = 0
+        for index, number in enumerate(current_list):
+            current_sum += index * number
+
+        if current_sum > max_number:
+            max_number = current_sum
+            count = i
+        current_list.appendleft(current_list.pop())
+
+    return f"Best pureness {max_number} after {count} rotations"
