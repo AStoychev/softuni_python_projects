@@ -1,0 +1,12 @@
+def get_magic_triangle(number):
+    triangle = [[1], [1, 1]]
+
+    for i in range(2, number):
+        current_row = triangle[-1]
+        triangle.append([current_row[0]])
+
+        for j in range(len(current_row) - 1):
+            total = current_row[j] + current_row[j + 1]
+            triangle[i].append(total)
+        triangle[i].append(current_row[-1])
+    return triangle
