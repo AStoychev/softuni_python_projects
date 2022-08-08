@@ -1,0 +1,49 @@
+def is_valid(rows, cols, current_size):
+    return 0 <= rows < current_size and 0 <= cols < current_size
+
+
+def position(rows, cols, current_matrix):
+    count = 0
+    if is_valid(rows - 1, cols, len(current_matrix)) and current_matrix[rows - 1][col] == "*":
+        count += 1
+    if is_valid(rows + 1, cols, len(current_matrix)) and current_matrix[rows + 1][col] == "*":
+        count += 1
+    if is_valid(rows, cols - 1, len(current_matrix)) and current_matrix[rows][cols - 1] == "*":
+        count += 1
+    if is_valid(rows, cols + 1, len(current_matrix)) and current_matrix[rows][cols + 1] == "*":
+        count += 1
+    if is_valid(rows - 1, cols - 1, len(current_matrix)) and current_matrix[rows - 1][cols - 1] == "*":
+        count += 1
+    if is_valid(rows - 1, cols + 1, len(current_matrix)) and current_matrix[rows - 1][cols + 1] == "*":
+        count += 1
+    if is_valid(rows + 1, cols + 1, len(current_matrix)) and current_matrix[rows + 1][cols + 1] == "*":
+        count += 1
+    if is_valid(rows + 1, cols - 1, len(current_matrix)) and current_matrix[rows + 1][cols - 1] == "*":
+        count += 1
+    return count
+
+
+size = int(input())
+bomb = int(input())
+
+matrix = []
+
+for _ in range(size):
+    matrix.append([None] * size)
+
+for _ in range(bomb):
+    line = input()
+    command = line[1: -1].split(", ")
+    row = int(command[0])
+    col = int(command[1])
+    matrix[row][col] = "*"
+
+for row in range(size):
+    for col in range(size):
+        if matrix[row][col] == "*":
+            continue
+        cell_value = position(row, col, matrix)
+        matrix[row][col] = cell_value
+
+for i in matrix:
+    print(*i)
