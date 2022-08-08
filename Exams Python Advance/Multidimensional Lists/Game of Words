@@ -1,0 +1,53 @@
+def is_valid(rows, cols, current_size):
+    return 0 <= rows < current_size and 0 <= cols < current_size
+
+
+def position(rows, cols, current_command):
+    if current_command == "up":
+        return rows - 1, cols
+    if current_command == "down":
+        return rows + 1, cols
+    if current_command == "left":
+        return rows, cols - 1
+    if current_command == "right":
+        return rows, cols + 1
+
+
+word = input()
+size = int(input())
+matrix = []
+row = 0
+col = 0
+
+for _ in range(size):
+    matrix.append(list(input()))
+
+for current_row in range(size):
+    for current_col in range(size):
+        if matrix[current_row][current_col] == "P":
+            row = int(current_row)
+            col = int(current_col)
+
+number_of_command = int(input())
+
+for i in range(number_of_command):
+    command = input()
+
+    players_row, players_col = position(row, col, command)
+    if not is_valid(players_row, players_col, size):
+        if word:
+            word = word[:-1]
+        continue
+
+    matrix[row][col] = "-"
+    row, col = players_row, players_col
+
+    if matrix[players_row][players_col] != "-":
+        word += matrix[players_row][players_col]
+
+    matrix[row][col] = "P"
+
+print(word)
+
+for i in matrix:
+    print(*i, sep="")
