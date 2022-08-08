@@ -1,0 +1,28 @@
+from collections import deque
+
+
+def list_manipulator(current_list, first_command, second_command, *args):
+    number = list(args)
+    if first_command == "add":
+        if second_command == "beginning":
+            number.reverse()
+            for i in number:
+                current_list.insert(0, i)
+        elif second_command == "end":
+            current_list.extend(args)
+
+    elif first_command == "remove":
+        if second_command == "beginning":
+            if args:
+                del current_list[0:args[0]]
+            else:
+                del current_list[0]
+        elif second_command == "end":
+            if args:
+                current_list.reverse()
+                del current_list[0:args[0]]
+                current_list.reverse()
+            else:
+                current_list.pop()
+
+    return current_list
