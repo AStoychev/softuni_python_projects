@@ -1,0 +1,17 @@
+from collections import deque
+
+jobs = [int(x) for x in input().split(", ")]
+index = int(input())
+
+searched_number = jobs[index]
+cycles = 0
+sorted_numbers = deque(sorted(jobs))
+
+while sorted_numbers:
+    current_number = sorted_numbers.popleft()
+    if current_number <= searched_number:
+        cycles += current_number
+    else:
+        break
+
+print(cycles)
